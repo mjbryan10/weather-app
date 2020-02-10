@@ -1,12 +1,30 @@
-import React from 'react';
-import './App.scss';
+import React, { Component } from "react";
+import "./App.scss";
 
-function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
+import Data from './resources/data/data'
+
+import Header from "./components/layout/Header";
+import Alert from './components/Alert'
+import Question from "./components/Question";
+
+export default class App extends Component {
+	state = {
+    data: Data,
+    datastate: "loading",
+    result: "" //returned result from Question: can be rain, chance or sunny
+	};
+	render() {
+		return (
+			<div className="app-container">
+        {console.log(this.state.data)}
+        <Alert alerts={this.state.data.alerts}></Alert>
+				<Header></Header>
+				<div className="content-container">
+					<Question></Question>
+					<p>{this.state.datastate === "ready" ? <span>"Hello World"</span> : ""}</p>
+				</div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+			</div>
+		);
+	}
 }
-
-export default App;
