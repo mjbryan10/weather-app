@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DynamicTable from './DynamicTable';
 
 export default class Summary extends Component {
 	iconToImg = icon => {
@@ -19,7 +20,6 @@ export default class Summary extends Component {
 	};
 	convertToCel(f) {
 		f = parseFloat(f);
-		console.log("TCL: Summary -> convertToCel -> f", f);
 		let c = ((f - 32) * 5) / 9;
 		// let c = (5(f - 32) / 9)
 		return Math.round(c);
@@ -49,6 +49,8 @@ export default class Summary extends Component {
 		return (
 			<div>
                 <h2>Summary:</h2>
+                <h3>Rain'o'meter</h3>
+                <DynamicTable hourly={hourly} displayDateHour={this.displayDateHour} />
 				<h3>Currently:</h3>
 				<table>
 					<tbody>
@@ -87,7 +89,6 @@ export default class Summary extends Component {
 						))}
 					</tbody>
 				</table>
-				{console.log(this.props.weatherData)}
 			</div>
 		);
 	}
