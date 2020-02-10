@@ -17,7 +17,7 @@ export default class Summary extends Component {
 			default:
 				break;
 		}
-	};
+    }
 	convertToCel(f) {
 		f = parseFloat(f);
 		let c = ((f - 32) * 5) / 9;
@@ -56,7 +56,7 @@ export default class Summary extends Component {
 					<tbody>
 						<tr>
 							<td>
-								<i className={"wi " + this.iconToImg(icon)}></i>
+        <i className={"wi " + this.iconToImg(icon)}></i>
 							</td>
                             <td>{this.convertToCel(temperature)}&#8451;</td>
 							<td>{summary}</td>

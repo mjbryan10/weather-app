@@ -26,6 +26,8 @@ export default class App extends Component {
 					<p>{this.state.datastate === "ready" ? <span>"Hello World"</span> : ""}</p>
           <Summary weatherData={this.state.data}></Summary>
 				</div>
+        <footer><a href="https://darksky.net/poweredby/">Powered by Dark
+          Sky</a></footer>
 			</div>
 		);
 	}

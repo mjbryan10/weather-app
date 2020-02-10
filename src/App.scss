@@ -58,6 +58,9 @@ i {
   font-size: 2em;
   color: $primary-color;
 }
+footer {
+  margin: 0px auto;
+}
 //HEADER STYLES
 header {
   font-family: $font-family;
@@ -73,7 +76,7 @@ header {
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   max-width: 1200px;
   padding: 1em;
@@ -81,7 +84,8 @@ header {
 .alert-container {
   display: block;
   flex: 1 0 5%;
-  width: 100vw;
+  width: 100%;
+  padding: 0.5em;
   p {
     font-size: 0.98em;
     max-width: 1500px;
@@ -90,9 +94,10 @@ header {
   }
   transition: ease 0.3s;
   opacity: 1;
+  max-height: 100px;
   &.hidden {
-    height: 0;
-    // font-size: 0;
+    // height: 0;
+    font-size: 0;
     overflow: none;
     opacity: 0;
   }
@@ -121,9 +126,11 @@ header {
 }
 .content-container {
   flex: 2 0 70%;
-  width: 100%;
+  width: 90%;
   max-width: 1200px;
   // margin-top: 20px;
+  // display: flex;
+  // flex-flow: column;
 }
 .question-container {
   display: flex;
