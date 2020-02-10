@@ -1,4 +1,6 @@
 @import "./variables.scss";
+
+//GLOBAL STYLES
 * {
   box-sizing: border-box;
   padding: 0;
@@ -7,9 +9,55 @@
 body {
   font-family: $font-family;
   background-color: $bg-color;
-  font-size: 18px;
+  // font-size: 18px;
+}
+table{
+  display: table;
+  // flex-flow: column;
+  border-collapse: collapse;
+  width: 100%;
+  // margin: 5px;
+  max-width: 100vw;
+  thead {
+    tr {
+      padding: 0 .3em;
+      // text-align: left;
+    }
+  }
+  tbody {
+    tr {
+      padding: 0 .3em;
+      text-align: center;
+      td {
+        // display: block;
+        // flex: 1 0 auto;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        span {
+          // position: absolute;
+          // margin-left: -3em;
+          font-weight: bold;
+          display: block;
+          padding: .3em;
+        }
+      }
+    }
+    tr {
+      padding: 1em;
+    }
+    tr:nth-child(odd) {
+        background-color: white;
+    }
+    tr:nth-child(even) {
+      background-color: rgb(196, 196, 196);
+  }
+  }
 }
 
+i {
+  font-size: 2em;
+  color: $primary-color;
+}
 //HEADER STYLES
 header {
   font-family: $font-family;
@@ -26,15 +74,16 @@ header {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   max-width: 1200px;
+  padding: 1em;
 }
 .alert-container {
   display: block;
   flex: 1 0 5%;
   width: 100vw;
   p {
-    font-size: 0.9em;
+    font-size: 0.98em;
     max-width: 1500px;
     margin: 0 auto;
     padding: .2em;
@@ -52,8 +101,8 @@ header {
 .warning-toggle {
   display: block;
   margin: 0 auto;
-  width: 30px;
-  font-size: 30px;
+  width: 40px;
+  font-size: 40px;
   color: orange;
   transition: ease 0.3s;
   &:hover {
@@ -72,6 +121,8 @@ header {
 }
 .content-container {
   flex: 2 0 70%;
+  width: 100%;
+  max-width: 1200px;
   // margin-top: 20px;
 }
 .question-container {
@@ -81,6 +132,7 @@ header {
   // min-height: 90vh;
   label, button, p {
     margin: 10px;
+    max-width: 600px;
   }
   input, button, select, option {
     height: 4em;
@@ -99,6 +151,11 @@ header {
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
+  }
+  button {
+    font-size: large;
+    width: 80%;
+    margin: 0 auto;
   }
 }
 

@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import "./App.scss";
+import './vendors/weather_icons/css/weather-icons.min.css'
 
 import Data from "./resources/data/data";
 
 import Header from "./components/layout/Header";
 import Alert from "./components/Alert";
 import Question from "./components/Question";
+import Summary from './components/Summary'
 
 export default class App extends Component {
 	state = {
@@ -22,8 +24,8 @@ export default class App extends Component {
 				<div className="content-container">
 					<Question></Question>
 					<p>{this.state.datastate === "ready" ? <span>"Hello World"</span> : ""}</p>
+          <Summary weatherData={this.state.data}></Summary>
 				</div>
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 			</div>
 		);
 	}
