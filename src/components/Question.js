@@ -4,6 +4,7 @@ export default class Question extends Component {
 	state = {
 		timeFrom: null,
 		timeUntil: null,
+		today: new Date(),
 		currentDate: {
 			minute: 0,
 			hour: 0,
@@ -13,15 +14,48 @@ export default class Question extends Component {
 			unix: 0,
 		},
 	};
+	componentDidMount() {
+		this.updateTime();
+	}
 	updateTime = e => {
-		let fromVal = document.getElementById("timeFrom").value;
-		let untilVal = document.getElementById("timeUntil").value;
+		let originHour = this.state.today.getHours();
+		let fromVal = new Date();
+		let untilVal = new Date();
+		//Reset seconds to avoid data confusion
+		fromVal.setSeconds(0); untilVal.setSeconds(0);
+		fromVal.setMilliseconds(0); untilVal.setMilliseconds(0);
+
+		let fromHour = document.getElementById("fromHour").value;
+		let fromMin = document.getElementById("fromMin").value;
+		if (fromHour < originHour) {
+			fromVal.setDate(this.state.today.getDate() + 1)
+		}
+		fromVal.setHours(fromHour); fromVal.setMinutes(fromMin);
+
+		let untilHour = document.getElementById("untilHour").value;
+		let untilMin = document.getElementById("untilMin").value;
+		if (untilHour < originHour) {
+			untilVal.setDate(this.state.today.getDate() + 1)
+		}
+		untilVal.setHours(untilHour); untilVal.setMinutes(untilMin);
+
 		let from = Math.round(new Date(fromVal).getTime() / 1000);
 		let until = Math.round(new Date(untilVal).getTime() / 1000);
 		this.setState({ timeFrom: from, timeUntil: until });
 	};
 	submitTime = () => {
-		console.log(this.state);
+		// let fromDate = new Date(this.state.timeFrom * 1000)
+        // console.log("TCL: Question -> submitTime -> fromDate", fromDate);
+		// let untilDate = new Date(this.state.timeUntil * 1000)
+        // console.log("TCL: Question -> submitTime -> untilDate", untilDate);
+		// console.log(this.state);
+
+		let timeObj = {
+			timeFrom: this.state.timeFrom,
+			timeUntil: this.state.timeUntil
+		}
+        console.log("TCL: Question -> submitTime -> timeObj", timeObj);
+		this.props.onTimeSubmit(timeObj)
 	};
 	minuteArray = (plus5 = false) => {
 		let today = new Date();
@@ -74,16 +108,16 @@ export default class Question extends Component {
 					<label htmlFor="whenFrom"> From
 					<span>
 
-						<select name="whenFrom" id="fromHour">
+						<select name="whenFrom" id="fromHour" onChange={this.updateTime}>
 							{this.hourArray().map((e, i) => (
-								<option name={e} key={i}>
+								<option name={e} index={i} key={i}>
 									{e}
 								</option>
 							))}
 						</select>
-						<select name="whenFrom" id="fromMin">
+						<select name="whenFrom" id="fromMin" onChange={this.updateTime}>
 							{this.minuteArray().map((e, i) => (
-								<option name={e} key={i}>
+								<option name={e} index={i} key={i}>
 									{e}
 								</option>
 							))}
@@ -91,18 +125,18 @@ export default class Question extends Component {
 					</span>
 					</label>
 
-					<label htmlFor="whenTil"> Until
+					<label htmlFor="whenUntil"> Until
 					<span>
-						<select name="whenFrom" id="fromHour">
+						<select name="whenUntil" id="untilHour" onChange={this.updateTime}>
 							{this.hourArray().map((e, i) => (
-								<option name={e} key={i}>
+								<option name={e} index={i} key={i}>
 									{e}
 								</option>
 							))}
 						</select>
-						<select name="whenFrom" id="fromMin">
+						<select name="whenUntil" id="untilMin" onChange={this.updateTime}>
 							{this.minuteArray(true).map((e, i) => (
-								<option name={e} key={i}>
+								<option name={e} index={i} key={i}>
 									{e}
 								</option>
 							))}
@@ -119,7 +153,6 @@ export default class Question extends Component {
 				<button type="submit" onClick={this.submitTime}>
 					Lets go!
 				</button>
-				<p>{console.log(this.currentDateTime)}</p>
 			</div>
 		);
 	}
