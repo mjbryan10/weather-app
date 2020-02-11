@@ -20,6 +20,7 @@ export default class App extends Component {
 		timeFrom: 0,
 		timeUntil: 0,
 		hasRain: "", //can be rain, chance or none
+		highestChance: 0,
 	};
 	handleTime = ({ timeFrom, timeUntil }) => {
 		this.setState({ timeFrom, timeUntil });
@@ -56,17 +57,24 @@ export default class App extends Component {
 			let result = "";
 			for (const hour of filtered) {
 				if (result === "" && hour.icon.includes("clear-day")) {
-					result = "sunny"
+					result = "sunny";
 				}
 				if (hour.precipProbability >= 0.2 && hour.precipProbability < 0.5) {
 					result = "chance";
+					if (hour.precipProbability > this.state.highestChance) {
+						this.setState({ highestChance: hour.precipProbability });
+					}
 				} else if (hour.precipProbability >= 0.5) {
-					result = "rain"
+					result = "rain";
 					break;
 				}
 			}
 			this.setState({ hasRain: result });
 		}
+	};
+	resetResult = e => {
+		e.preventDefault();
+		this.setState({ hasRain: "" });
 	};
 	render() {
 		return (
@@ -75,11 +83,18 @@ export default class App extends Component {
 				<Header></Header>
 				<div className="content-container">
 					<Question onTimeSubmit={this.handleTime}></Question>
-					
-					{this.state.hasRain ? <Result rainResult={this.state.hasRain} /> : null}
+
+					{this.state.hasRain ? (
+						<Result
+							rainResult={this.state.hasRain}
+							highestChance={this.state.highestChance}
+							resetResult={this.resetResult}
+						/>
+					) : null}
 					{/* <Summary weatherData={this.state.data}></Summary> */}
 				</div>
 				<ScrollUp />
+
 				<footer>
 					<a href="https://darksky.net/poweredby/">Powered by Dark Sky</a>
 				</footer>

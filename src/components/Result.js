@@ -6,7 +6,7 @@ function Rain(props) {
 		height: "364px",
 	};
 	return (
-		<div>
+		<React.Fragment>
 			<p>Ah snap! Looks like it will be raining!</p>
 			<p>Better dress appropiately...</p>
 			<video
@@ -21,37 +21,42 @@ function Rain(props) {
 				<source src="//i.imgur.com/kUspN1p.mp4" type="video/mp4" />
 				Your browser does not support the video tag.
 			</video>
-		</div>
+		</React.Fragment>
 	);
 }
 function Chance(props) {
 	return (
-		<div>
-			<p>There's a chance that it might rain.</p>
+		<React.Fragment>
+			<p>There's a {props.highestChance * 100}% chance that it might rain.</p>
 			<img
 				src="https://media.giphy.com/media/1HH6lJOzOXAY/giphy.gif"
-                alt="Never tell me the odds"
-                style={props.styleHeight}
+				alt="Never tell me the odds"
+				style={props.styleHeight}
 			/>
-		</div>
+		</React.Fragment>
 	);
 }
 function Sunny(props) {
-    return (
-        <div>
-            <p>Looks like it might be sunny, bet you didn't expect that!</p>
-            <img src="https://i.chzbgr.com/full/7425309184/hFA61DF3E/wake-up" alt="Sunny day" style={props.styleHeight} />
-        </div>
-    )
+	return (
+		<React.Fragment>
+			<p>Looks like it might be sunny!</p>
+			<p>.. bet you didn't expect that!</p>
+			<img
+				src="https://i.chzbgr.com/full/7425309184/hFA61DF3E/wake-up"
+				alt="Sunny day"
+				style={props.styleHeight}
+			/>
+		</React.Fragment>
+	);
 }
 function Decider(props) {
-    if (props.rainResult === "rain") {
-        return <Rain />
-    } else if (props.rainResult === "chance") {
-        return <Chance styleHeight={props.styleHeight} />
-    } else if (props.rainResult === "sunny") {
-        return <Sunny styleHeight={props.styleHeight} />
-    }
+	if (props.rainResult === "rain") {
+		return <Rain />;
+	} else if (props.rainResult === "chance") {
+		return <Chance styleHeight={props.styleHeight} highestChance={props.highestChance} />;
+	} else if (props.rainResult === "sunny") {
+		return <Sunny styleHeight={props.styleHeight} />;
+	}
 }
 export default class Result extends Component {
 	smoothScroll(e) {
@@ -76,17 +81,27 @@ export default class Result extends Component {
 		}
 		requestAnimationFrame(animation);
 	}
+	submitReset = e => {
+		this.props.resetResult(e);
+	};
 	componentDidMount() {
 		this.smoothScroll();
 	}
 	render() {
-        let styleHeight = {
-            height: '364px',
-        }
+		let styleHeight = {
+			height: "364px",
+		};
 		return (
 			<div className="results-container">
-                <h2>Result:</h2>
-				<Decider styleHeight={styleHeight} rainResult={this.props.rainResult}/>
+				<h2>Result:</h2>
+				<Decider
+					styleHeight={styleHeight}
+					rainResult={this.props.rainResult}
+					highestChance={this.props.highestChance}
+				/>
+				<button className="reset-btn" onClick={this.submitReset}>
+					Reset
+				</button>
 			</div>
 		);
 	}
