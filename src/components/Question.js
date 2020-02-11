@@ -5,14 +5,7 @@ export default class Question extends Component {
 		timeFrom: null,
 		timeUntil: null,
 		today: new Date(),
-		currentDate: {
-			minute: 0,
-			hour: 0,
-			day: 0,
-			month: 0,
-			year: 0,
-			unix: 0,
-		},
+		location: '52.3667,4.8945'
 	};
 	componentDidMount() {
 		this.updateTime();
@@ -43,6 +36,19 @@ export default class Question extends Component {
 		let until = Math.round(new Date(untilVal).getTime() / 1000);
 		this.setState({ timeFrom: from, timeUntil: until });
 	};
+	updateLoc = (e) => {
+		let coords = ";"
+		switch (e.target.value) {
+			case "AMS":
+				coords = '52.3667,4.8945';
+				break;
+			case "ROT":
+				coords = '51.9244,4.4777';
+				break;
+			default: coords = '52.3667,4.8945';
+		}
+		this.setState({ location: coords})
+	}
 	submitTime = () => {
 		// let fromDate = new Date(this.state.timeFrom * 1000)
         // console.log("TCL: Question -> submitTime -> fromDate", fromDate);
@@ -52,7 +58,8 @@ export default class Question extends Component {
 
 		let timeObj = {
 			timeFrom: this.state.timeFrom,
-			timeUntil: this.state.timeUntil
+			timeUntil: this.state.timeUntil,
+			location: this.state.location
 		}
         console.log("TCL: Question -> submitTime -> timeObj", timeObj);
 		this.props.onTimeSubmit(timeObj)
@@ -145,8 +152,9 @@ export default class Question extends Component {
 					</label>
 					<p>Where?</p>
 					<label htmlFor="where">
-						<select name="location" id="locSelect">
+						<select name="location" id="locSelect" onChange={this.updateLoc}>
 							<option value="AMS">Amsterdam</option>
+							<option value="ROT">Rotterdam</option>
 						</select>
 					</label>
 				</form>

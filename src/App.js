@@ -14,24 +14,26 @@ import Result from "./components/Result";
 
 export default class App extends Component {
 	state = {
-		data: Data,
-		// data: {},
+		// data: Data,
+		data: {},
 		datastate: "loading", //"ready", "loading", "none"
 		timeFrom: 0,
 		timeUntil: 0,
 		hasRain: "", //can be rain, chance or none
 		highestChance: 0,
 	};
-	handleTime = ({ timeFrom, timeUntil }) => {
+	handleTime = ({ timeFrom, timeUntil, location }) => {
 		this.setState({ timeFrom, timeUntil });
+		this.getData(location);
+		if (this.state.datastate == "ready")
 		this.weatherChecker(timeFrom, timeUntil);
 	};
 	weatherChecker = (timeFrom, timeUntil) => {
 		let data = this.state.data.hourly.data;
-		// let from = timeFrom - 300000; //+/- 5 min buffer
-		// let until = timeUntil + 300000;
-		let from = 1581328800;
-		let until = 1581350400;
+		let from = timeFrom - 300000; //+/- 5 min buffer
+		let until = timeUntil + 300000;
+		// let from = 1581328800;
+		// let until = 1581350400;
 		let filtered = [];
 		let breakOut = 0;
 		while (!filtered.length && breakOut < 5) {
@@ -76,6 +78,18 @@ export default class App extends Component {
 		e.preventDefault();
 		this.setState({ hasRain: "" });
 	};
+	componentDidMount() {
+		const AMS = '52.3667,4.8945'
+		this.getData(AMS)
+	}
+	getData = (location) => {
+		const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+        console.log("TCL: getData -> API_KEY", API_KEY);
+		fetch(`https://api.darksky.net/forecast/${API_KEY}}/${location}`)
+			.then(response => response.json())
+			.then(data => this.setState({ data, datastate: "ready" }))
+			.catch(err => console.log(err))
+	}
 	render() {
 		return (
 			<div className="app-container">
