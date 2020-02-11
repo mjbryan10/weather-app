@@ -51,7 +51,7 @@ export default class Summary extends Component {
 				<h2>Summary:</h2>
 				<h3>Rain'o'meter</h3>
 				<DynamicTable hourly={hourly} displayDateHour={this.displayDateHour} />
-				<h3>Currently:</h3>
+				<h3>Current:</h3>
 				<Current
 					currently={currently}
 					iconToImg={this.iconToImg}
