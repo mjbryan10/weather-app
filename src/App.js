@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import "./App.scss";
 import "./vendors/weather_icons/css/weather-icons.min.css";
 
-import Data from "./resources/data/data";
+// import Data from "./resources/data/data";
 
 import Header from "./components/layout/Header";
 import ScrollUp from "./components/layout/scroll/ScrollUp";
 
 import Alert from "./components/Alert";
 import Question from "./components/Question";
-import Summary from "./components/Summary";
+// import Summary from "./components/Summary";
 import Result from "./components/Result";
 
 export default class App extends Component {
@@ -25,8 +25,7 @@ export default class App extends Component {
 	handleTime = ({ timeFrom, timeUntil, location }) => {
 		this.setState({ timeFrom, timeUntil });
 		this.getData(location);
-		if (this.state.datastate == "ready")
-		this.weatherChecker(timeFrom, timeUntil);
+		if (this.state.datastate === "ready") this.weatherChecker(timeFrom, timeUntil);
 	};
 	weatherChecker = (timeFrom, timeUntil) => {
 		let data = this.state.data.hourly.data;
@@ -79,17 +78,17 @@ export default class App extends Component {
 		this.setState({ hasRain: "" });
 	};
 	componentDidMount() {
-		const AMS = '52.3667,4.8945'
-		this.getData(AMS)
+		const AMS = "52.3667,4.8945";
+		this.getData(AMS);
 	}
-	getData = (location) => {
+	getData = location => {
 		const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
-        console.log("TCL: getData -> API_KEY", API_KEY);
+		console.log("TCL: getData -> API_KEY", API_KEY);
 		fetch(`https://api.darksky.net/forecast/${API_KEY}}/${location}`)
 			.then(response => response.json())
 			.then(data => this.setState({ data, datastate: "ready" }))
-			.catch(err => console.log(err))
-	}
+			.catch(err => console.log(err));
+	};
 	render() {
 		return (
 			<div className="app-container">
@@ -110,7 +109,10 @@ export default class App extends Component {
 				<ScrollUp />
 
 				<footer>
-					<a href="https://darksky.net/poweredby/">Powered by Dark Sky</a>
+					<p>Created by Matthew James Bryan</p>
+					<p>
+						<a href="https://darksky.net/poweredby/">Powered by Dark Sky</a>
+					</p>
 				</footer>
 			</div>
 		);
