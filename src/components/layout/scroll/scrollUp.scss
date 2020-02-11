@@ -1,0 +1,80 @@
+//Change colors to preference
+$bg-color: #000000;
+$bg-color_hover: #00acca;
+$text-color: #fff;
+$size: 50px; // Choose a size
+$page-offset: 25px;
+$jump-height: 0.4rem; //How high you want the arrow to jump
+
+@mixin entrance($direction) { //Choose from right, left or bottom
+	@if $direction == right {
+		right: 0;
+		bottom: $page-offset;
+		margin-right: -$size;
+		&.active {
+			margin-right: $page-offset;
+		}
+	} @else if $direction == left {
+		left: 0;
+		bottom: $page-offset;
+		margin-left: -$size;
+		&.active {
+			margin-left: $page-offset;
+		}
+	} @else if $direction == bottom {
+		bottom: 0;
+		right: $page-offset;
+		margin-bottom: -$size;
+		&.active {
+			margin-bottom: $page-offset;
+		}
+	} @else {
+		@error "Unknown direction #{$direction}.";
+	}
+}
+
+.scroll-container {
+    @include entrance(bottom);
+	display: block;
+	height: $size;
+	width: $size;
+	border-radius: $size;
+	z-index: 100;
+	position: fixed;
+	transition: 0.5s ease;
+	background-color: $bg-color;
+	text-align: center;
+	cursor: pointer;
+	&:hover {
+		background-color: $bg-color_hover;
+	}
+	&.active {
+		.scroll-text {
+			animation: jump 0.7s ease 0.3s 2 normal none;
+		}
+	}
+	.scroll-text {
+		font-size: $size;
+		line-height: $size;
+		display: block;
+		margin: auto;
+		text-decoration: none;
+		color: $text-color;
+		transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		&:hover {
+			animation: jump 0.7s ease 0.3s infinite normal none;
+		}
+	}
+}
+//Jumping animation
+@keyframes jump {
+	0% {
+		transform: translateY(0);
+	}
+	75% {
+		transform: translateY(-$jump-height);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}

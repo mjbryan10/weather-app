@@ -165,7 +165,18 @@ header {
     margin: 0 auto;
   }
 }
-
+.results-container {
+  padding: 1em;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  h2 {
+    padding: .5em;
+  }
+  p {
+    margin: 1em;
+  }
+}
 
 
 //ANIMATIONS:
