@@ -27,7 +27,7 @@ function Rain(props) {
 function Chance(props) {
 	return (
 		<React.Fragment>
-			<p>There's a {props.highestChance * 100}% chance that it might rain.</p>
+			<p>There's a {props.rainChance}% chance that it might rain.</p>
 			<img
 				src="https://media.giphy.com/media/1HH6lJOzOXAY/giphy.gif"
 				alt="Never tell me the odds"
@@ -39,7 +39,7 @@ function Chance(props) {
 function Dry(props) {
 	return (
 		<React.Fragment>
-			<p>Only a {props.highestChance * 100}% chance of rain, looking pretty dry.</p>
+			<p>There is a {props.rainChance}% chance of rain, looking pretty dry.</p>
 			<p>Maybe it's a good time to go on that adventure of yours!</p>
 			<img
 				src="https://media.giphy.com/media/Zs1PFiQsjqbRu/giphy.gif"
@@ -63,12 +63,13 @@ function Sunny(props) {
 	);
 }
 function Decider(props) {
+	let rainChance = Math.round(props.highestChance * 100)
 	if (props.rainResult === "rain") {
 		return <Rain />;
 	} else if (props.rainResult === "chance") {
-		return <Chance styleHeight={props.styleHeight} highestChance={props.highestChance} />;
+		return <Chance styleHeight={props.styleHeight} rainChance={rainChance} />;
 	} else if (props.rainResult === "dry") {
-		return <Dry styleHeight={props.styleHeight} highestChance={props.highestChance} />;
+		return <Dry styleHeight={props.styleHeight} rainChance={rainChance} />;
 	} else if (props.rainResult === "sunny") {
 		return <Sunny styleHeight={props.styleHeight} />;
 	} else {
