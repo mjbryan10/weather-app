@@ -18,16 +18,18 @@ export default class Question extends Component {
 		fromVal.setSeconds(0); untilVal.setSeconds(0);
 		fromVal.setMilliseconds(0); untilVal.setMilliseconds(0);
 
+		//Fetches values from select
 		let fromHour = document.getElementById("fromHour").value;
 		let fromMin = document.getElementById("fromMin").value;
-		if (fromHour < originHour) {
+		if (fromHour < originHour) { //Changes day if time behind origin
 			fromVal.setDate(this.state.today.getDate() + 1)
 		}
 		fromVal.setHours(fromHour); fromVal.setMinutes(fromMin);
 
+		//Fetches values from select
 		let untilHour = document.getElementById("untilHour").value;
 		let untilMin = document.getElementById("untilMin").value;
-		if (untilHour < originHour) {
+		if (untilHour < originHour) { //Changes day if time behind origin
 			untilVal.setDate(this.state.today.getDate() + 1)
 		}
 		untilVal.setHours(untilHour); untilVal.setMinutes(untilMin);
@@ -50,12 +52,6 @@ export default class Question extends Component {
 		this.setState({ location: coords})
 	}
 	submitTime = () => {
-		// let fromDate = new Date(this.state.timeFrom * 1000)
-        // console.log("TCL: Question -> submitTime -> fromDate", fromDate);
-		// let untilDate = new Date(this.state.timeUntil * 1000)
-        // console.log("TCL: Question -> submitTime -> untilDate", untilDate);
-		// console.log(this.state);
-
 		let timeObj = {
 			timeFrom: this.state.timeFrom,
 			timeUntil: this.state.timeUntil,
@@ -85,11 +81,15 @@ export default class Question extends Component {
 		}
 		return minutes;
 	};
-	hourArray = () => {
+	hourArray = (plus1 = false) => {
 		let today = new Date();
 		let hour = today.getHours();
 		let minute = today.getMinutes();
-		(minute > 50) ? hour += 1 : hour+=0 
+		if (plus1) {
+			(minute > 40) ? hour += 1 : hour+=0 
+		} else {
+			(minute > 55) ? hour += 1 : hour+=0 
+		}
 		let hourString = "";
 		let hours = [];
 		for (let i = 0; i < 24; i++) {
@@ -135,7 +135,7 @@ export default class Question extends Component {
 					<label htmlFor="whenUntil"> Until
 					<span>
 						<select name="whenUntil" id="untilHour" onChange={this.updateTime}>
-							{this.hourArray().map((e, i) => (
+							{this.hourArray(true).map((e, i) => (
 								<option name={e} index={i} key={i}>
 									{e}
 								</option>

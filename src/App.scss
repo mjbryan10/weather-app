@@ -51,7 +51,11 @@ i {
 	color: $primary-color;
 }
 footer {
+	text-align: center;
 	margin: 0px auto;
+	p {
+		padding: 0.3em;
+	}
 }
 //HEADER STYLES
 header {

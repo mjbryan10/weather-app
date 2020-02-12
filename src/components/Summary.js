@@ -5,11 +5,22 @@ import Hourly from "./tables/Hourly";
 
 export default class Summary extends Component {
 	iconToImg = icon => {
+		//Icons by: https://erikflowers.github.io/weather-icons/
 		switch (icon) {
+			case "clear-day":
+				return "wi-day-sunny"
+			case "clear-night":
+				return "wi-night-clear"
 			case "rain":
 				return "wi-rain";
+			case "snow":
+				return "wi-snow";
+			case "sleet":
+				return "wi-sleet";
 			case "wind":
 				return "wi-strong-wind";
+			case "fog":
+				return "wi-fog";
 			case "partly-cloudy-day":
 				return "wi-day-cloudy";
 			case "partly-cloudy-night":
@@ -17,7 +28,7 @@ export default class Summary extends Component {
 			case "cloudy":
 				return "wi-cloudy";
 			default:
-				break;
+				return "wi-na";
 		}
 	};
 	convertToCel(f) {//converts fah to Celsius 

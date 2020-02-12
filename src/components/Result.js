@@ -36,6 +36,19 @@ function Chance(props) {
 		</React.Fragment>
 	);
 }
+function Dry(props) {
+	return (
+		<React.Fragment>
+			<p>Only a {props.highestChance * 100}% chance of rain, looking pretty dry.</p>
+			<p>Maybe it's a good time to go on that adventure of yours!</p>
+			<img
+				src="https://media.giphy.com/media/Zs1PFiQsjqbRu/giphy.gif"
+				alt="Going on an adventure"
+				style={props.styleHeight}
+			/>
+		</React.Fragment>
+	);
+}
 function Sunny(props) {
 	return (
 		<React.Fragment>
@@ -54,8 +67,12 @@ function Decider(props) {
 		return <Rain />;
 	} else if (props.rainResult === "chance") {
 		return <Chance styleHeight={props.styleHeight} highestChance={props.highestChance} />;
+	} else if (props.rainResult === "dry") {
+		return <Dry styleHeight={props.styleHeight} highestChance={props.highestChance} />;
 	} else if (props.rainResult === "sunny") {
 		return <Sunny styleHeight={props.styleHeight} />;
+	} else {
+		return <p>Oops, looks like something went wrong!</p>
 	}
 }
 export default class Result extends Component {
