@@ -7,7 +7,7 @@ import "./vendors/weather_icons/css/weather-icons.min.css";
 
 import Header from "./components/layout/Header";
 import ScrollUp from "./components/layout/scroll/ScrollUp";
-import Loader from './components/loader/Loader'
+import Loader from "./components/loader/Loader";
 
 import Alert from "./components/Alert";
 import Question from "./components/Question";
@@ -16,77 +16,68 @@ import Result from "./components/Result";
 
 export default class App extends Component {
 	state = {
-		// data: Data, //FOR OFFLINE
-		data: {},
+		data: {}, //= Data //FOR OFFLINE
 		isLoading: false,
 		hasLoaded: false,
 		timeFrom: 0,
 		timeUntil: 0,
 		rainResult: "", //can be rain, chance, dry & sunny
-		highestChance: 0, //precipitation % in float 
+		highestChance: 0, //precipitation % in float
 	};
 	handleTime = ({ timeFrom, timeUntil, location }) => {
 		this.setState({ timeFrom, timeUntil });
-		this.getData(location)
+		this.getData(location);
 	};
 	weatherChecker = (timeFrom, timeUntil) => {
 		let min30 = 30 * 60; //30 min buffer to ensure results
 		let data = this.state.data.hourly.data;
-		let from = timeFrom - min30;
-		let until = timeUntil + min30;
-		// let from = 1581328800; //FOR OFFLINE
-		// let until = 1581350400; //FOR OFFLINE 
-		let filtered = data.filter (el => el.time >= from && el.time <= until);
+		let from = timeFrom - min30; //= 1581328800 //FOR OFFLINE
+		let until = timeUntil + min30; //= 1581350400; //FOR OFFLINE
+		let filtered = data.filter(el => el.time >= from && el.time <= until);
 		//LOGIC: (using perc %) as per https://www.thoughtco.com/chance-of-rain-3444366
 		let pctRain = 0;
 		let result = "";
 		if (filtered.length) {
 			for (const hour of filtered) {
-				pctRain = Math.max(pctRain, hour.precipProbability)
+				pctRain = Math.max(pctRain, hour.precipProbability);
 				if (hour.icon === "clear-day") {
-					result = "sunny"
+					result = "sunny";
 				}
 			}
 			switch (true) {
-				case pctRain>=0.5:
+				case pctRain >= 0.5:
 					result = "rain";
 					break;
-				case pctRain>=0.2:
+				case pctRain >= 0.2:
 					result = "chance";
 					break;
-				case (pctRain>=0) && !(result === "sunny"):
-					result = "dry"
+				case pctRain >= 0 && !(result === "sunny"):
+					result = "dry";
 					break;
 				default:
-					result = ""
+					result = "";
 					break;
 			}
 		}
-        console.log("TCL: weatherChecker -> result", result);
-        console.log("TCL: weatherChecker -> pctRain", pctRain);
+		console.log("TCL: weatherChecker -> result", result);
+		console.log("TCL: weatherChecker -> pctRain", pctRain);
 		this.setState({ rainResult: result, highestChance: pctRain });
-	}
+	};
 	resetResult = e => {
 		e.preventDefault();
 		this.setState({ data: {}, hasLoaded: false, rainResult: "" });
 	};
-	// componentDidMount() {
-	// 	//TEST:
-	// 	// const AMS = "52.3667,4.8945";
-	// 	// this.getData(AMS);
-	// }
 	getData = location => {
-		this.setState({ hasLoaded: false, isLoading: true})
+		this.setState({ hasLoaded: false, isLoading: true });
 		const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 		const URL = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${location}`; //https://cors-anywhere.herokuapp.com/
 		fetch(URL)
 			.then(response => response.json())
 			.then(data => {
 				this.setState({ data, hasLoaded: true, isLoading: false });
-				this.weatherChecker(this.state.timeFrom, this.state.timeUntil)
+				this.weatherChecker(this.state.timeFrom, this.state.timeUntil);
 			})
 			.catch(err => console.log(err));
-
 	};
 
 	render() {
@@ -98,7 +89,7 @@ export default class App extends Component {
 					<Question onTimeSubmit={this.handleTime}></Question>
 					{this.state.isLoading ? <Loader /> : null}
 					{this.state.hasLoaded ? (
-						<React.Fragment>
+						<Fragment>
 							{this.state.rainResult ? (
 								<Result
 									rainResult={this.state.rainResult}
@@ -107,7 +98,7 @@ export default class App extends Component {
 								/>
 							) : null}
 							<Summary weatherData={this.state.data}></Summary>
-						</React.Fragment>
+						</Fragment>
 					) : null}
 				</div>
 				<ScrollUp />

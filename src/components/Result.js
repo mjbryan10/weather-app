@@ -12,7 +12,7 @@ function Rain(props) {
 			<video
 				poster="//i.imgur.com/kUspN1ph.jpg"
 				preload="auto"
-				autoplay="autoplay"
+				autoPlay="autoplay"
 				muted="muted"
 				loop="loop"
 				webkit-playsinline=""

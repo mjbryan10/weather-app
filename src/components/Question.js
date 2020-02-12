@@ -59,7 +59,6 @@ export default class Question extends Component {
 			case "MAS":
 				coords = "50.8514, 5.6910";
 				break;
-
 			case "ROT":
 				coords = "51.9244,4.4777";
 				break;
@@ -124,7 +123,6 @@ export default class Question extends Component {
 		return hours;
 	};
 	render() {
-		// let minutes = minuteArray();
 		return (
 			<div className="question-container">
 				<form className="form-group">

@@ -9,7 +9,6 @@ export default function Hourly(props) {
 					<th>Time</th>
 					<th></th>
 					<th>Temp.</th>
-					{/* <th>Description</th> */}
 					<th>Rain %</th>
 				</tr>
 			</thead>
@@ -21,7 +20,6 @@ export default function Hourly(props) {
 							<i className={"wi " + props.iconToImg(hour.icon)}></i>
 						</td>
 						<td>{props.convertToCel(hour.temperature)} &#8451;</td>
-						{/* <td>{hour.summary}</td> */}
 						<td>{Math.round(hour.precipProbability * 100)}%</td>
 					</tr>
 				))}
