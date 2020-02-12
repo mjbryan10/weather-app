@@ -15,7 +15,7 @@ export default function Hourly(props) {
 			</thead>
 			<tbody>
 				{hourly.map((hour, index) => (
-					<tr index={index}>
+					<tr key={index}>
 						<td>{props.displayDateHour(hour.time, index)}</td>
 						<td>
 							<i className={"wi " + props.iconToImg(hour.icon)}></i>

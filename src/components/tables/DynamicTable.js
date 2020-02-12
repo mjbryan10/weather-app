@@ -36,7 +36,7 @@ export default class DynamicTable extends Component {
                         justifyContent: 'flex-end'
 					};
 					return (
-						<div index={i} style={pctCol}>
+						<div key={i} style={pctCol}>
 							<span>
 								<p>
 									{this.props.displayDateHour(hourly[i].time)}
