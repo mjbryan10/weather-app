@@ -7,6 +7,7 @@ import "./vendors/weather_icons/css/weather-icons.min.css";
 
 import Header from "./components/layout/Header";
 import ScrollUp from "./components/layout/scroll/ScrollUp";
+import Loader from './components/loader/Loader'
 
 import Alert from "./components/Alert";
 import Question from "./components/Question";
@@ -15,9 +16,10 @@ import Result from "./components/Result";
 
 export default class App extends Component {
 	state = {
-		// data: Data,
+		// data: Data, //FOR OFFLINE
 		data: {},
-		hasLoaded: false, //"ready", "loading", "none"
+		isLoading: false,
+		hasLoaded: false,
 		timeFrom: 0,
 		timeUntil: 0,
 		rainResult: "", //can be rain, chance, dry & sunny
@@ -74,12 +76,13 @@ export default class App extends Component {
 	// 	// this.getData(AMS);
 	// }
 	getData = location => {
+		this.setState({ hasLoaded: false, isLoading: true})
 		const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 		const URL = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${location}`; //https://cors-anywhere.herokuapp.com/
 		fetch(URL)
 			.then(response => response.json())
 			.then(data => {
-				this.setState({ data, hasLoaded: true });
+				this.setState({ data, hasLoaded: true, isLoading: false });
 				this.weatherChecker(this.state.timeFrom, this.state.timeUntil)
 			})
 			.catch(err => console.log(err));
@@ -93,6 +96,7 @@ export default class App extends Component {
 				<Header></Header>
 				<div className="content-container">
 					<Question onTimeSubmit={this.handleTime}></Question>
+					{this.state.isLoading ? <Loader /> : null}
 					{this.state.hasLoaded ? (
 						<React.Fragment>
 							{this.state.rainResult ? (
